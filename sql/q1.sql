@@ -1,9 +1,5 @@
 SELECT count(*)
-FROM Country
-JOIN City
-  ON City.isPartOf_CountryId = Country.CountryId
-JOIN Person
-  ON Person.isLocatedIn_CityId = City.CityId
+FROM Person
 JOIN Forum_hasMember_Person
   ON Forum_hasMember_Person.PersonId = Person.PersonId
 JOIN Forum
@@ -15,6 +11,4 @@ JOIN Comment
 JOIN Comment_hasTag_Tag
   ON Comment_hasTag_Tag.CommentId = Comment.CommentId
 JOIN Tag
-  ON Tag.TagId = Comment_hasTag_Tag.TagId
-JOIN TagClass
-  ON Tag.hasType_TagClassId = TagClass.TagClassId;
+  ON Tag.TagId = Comment_hasTag_Tag.TagId;
