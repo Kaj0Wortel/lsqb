@@ -1,4 +1,4 @@
-social-network-sf*/
+social-network-sf*
 !social-network-sf0.003-*/
 !social-network-sfexample-*/
 *.nt
@@ -7,3 +7,4 @@ social-network-sf*/
 *-reverse.csv
 *.tar.zst
 mydb*
+yago*

@@ -94,7 +94,7 @@ else
 
     # Make index(es) TODO
     start=`date +%s.%N`
-    #${AVANTGRAPH_BINARIES}/ag-index create --type=label-adjacency:multimap ${AVANTGRAPH_GRAPH}
+    ${AVANTGRAPH_BINARIES}/ag-index create --type=label-adjacency:multimap ${AVANTGRAPH_GRAPH}
     end=`date +%s.%N`
     indextime=$(echo "$end - $start" | bc -l | awk '{printf "%f", $0}')
 

@@ -32,7 +32,12 @@ fi
 
 # Execute queries
 for plan in ${AVANTGRAPH_PLANS}/*.plan.ipr; do
-    queryid=$(echo ${plan} | grep -oP "[0-9]+(?=\.plan\.ipr)")
+    # Skip plans starting with '_'
+    if basename "${plan}" | grep -qP "^_"; then
+        continue
+    fi
+
+    queryid=$(echo ${plan} | grep -oP "[1-9][0-9]*(?=\.plan\.ipr)")
     outfile=${AVANTGRAPH_OUTPUT}/out_${queryid}.txt
     tracefile=${AVANTGRAPH_OUTPUT}/trace_${queryid}.txt
 
@@ -41,7 +46,7 @@ for plan in ${AVANTGRAPH_PLANS}/*.plan.ipr; do
         --planner none \
         --count \
         -M \
-        --timeout=300 \
+        `#--timeout=300` \
         --trace-filters=main \
         --trace-output="${tracefile}" \
         `#--verbose` \
