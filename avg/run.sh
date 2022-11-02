@@ -36,7 +36,7 @@ for plan in ${AVANTGRAPH_PLANS}/*.plan.ipr; do
     if basename "${plan}" | grep -qP "^_"; then
         continue
     fi
-
+    echo -e "\nQuery: ${plan}"
     queryid=$(echo ${plan} | grep -oP "[1-9][0-9]*(?=\.plan\.ipr)")
     outfile=${AVANTGRAPH_OUTPUT}/out_${queryid}.txt
     tracefile=${AVANTGRAPH_OUTPUT}/trace_${queryid}.txt
@@ -53,14 +53,13 @@ for plan in ${AVANTGRAPH_PLANS}/*.plan.ipr; do
         `#--dump-execution-state` \
         ${AVANTGRAPH_GRAPH}/ \
         ${plan} || true) |& tee ${outfile}
-#    end=`date +%s.%N`
 
+#    end=`date +%s.%N`
     threadcount="$(nproc) threads"
 #    runtime=$(echo "$end - $start" | bc -l | awk '{printf "%f", $0}')
     runtime=$(cat "${tracefile}" | sed -E "/^\{\"name\": \"printQueryResults\"/!d ; s/^.*\"dur\": ([1-9][0-9]*).*$/\1 \/ 1000000/g" | bc -l | awk '{printf "%f", $0}')
     result=$(sed -E "/^Count [0-9]+$/!d ; s/^Count ([0-9]+)$/\1/g" ${outfile})
-    if [[ "${result}" == "" ]]; then
-        exit 1
+    if [[ "${result}" != "" ]]; then
+        echo -e "AvantGraph\t${threadcount}\t${SF}\t${queryid}\t${runtime}\t${result}" >> ${RESULTS_FILE}
     fi
-    echo -e "AvantGraph\t${threadcount}\t${SF}\t${queryid}\t${runtime}\t${result}" >> ${RESULTS_FILE}
 done

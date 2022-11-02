@@ -100,7 +100,7 @@ else
 
     if ((${AVANTGRAPH_CACHE})); then
         echo "Computing checksum..."
-        find ${BASE}/* -type f -exec md5sum "{}" + > "${AVANTGRAPH_CHECKSUMS}/checklist_${SF}.chk"
+        find ${BASE}/*.csv -type f -exec md5sum "{}" + > "${AVANTGRAPH_CHECKSUMS}/checklist_${SF}.chk"
         find ${TARGET}/* -type f -exec md5sum "{}" + >> "${AVANTGRAPH_CHECKSUMS}/checklist_${SF}.chk"
     fi
 fi
